@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <title>django get&post</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="d-flex">
+            <div class="col-12 ">
+                <h1 class="alert alert-danger text-center">django & ajax using POST GET method</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <div class="alert alert-info">
+                    Fill the fields
+                </div>
+                <form action="post">
+                    {% csrf_token %}
+                    name : <input type="text" class="form-control" autocomplete="off" name="" id="nameid">
+                    email : <input type="email" class="form-control" autocomplete="off" name="" id="emailid">
+                    password : <input type="password" class="form-control" autocomplete="off" name="" id="passwordid">
+                    <input type="button" class="btn btn-success mt-4" id="saveid" value="save">
+
+                </form>
+            </div>
+        </div>
+    </div>
+  <script >
+      $(document).ready(function () {
+        $("#saveid").click(function () {
+            console.log('click now this btn')
+            var nm = $('#nameid').val();
+            // console.log(nm)
+            var em = $('#emailid').val();
+            // console.log(em);
+            var pw = $('#passwordid').val();
+            // console.log(pw)
+            var csr = $("input[name = csrfmiddlewaretoken]").val();
+
+            my_data = { name: nm, email: em, password: pw, csrfmiddlewaretoken: csr  }
+            console.log(my_data)
+            $.ajax({
+                url: "{% url 'save_data' %}",
+                method: 'POST',
+                data: my_data,
+                success: function(data){
+                    console.log(data)
+
+                }
+            })
+
+
+        })
+
+    })
+</script>
+</body>
+
+</html>
